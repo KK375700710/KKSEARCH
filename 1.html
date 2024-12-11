@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f8f8;
+        }
+        #search-container {
+            width: 50%; /* 大框宽度 */
+            background-color: white;
+            border-radius: 15px; /* 圆角矩形 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative; /* 相对定位 */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 确保搜索框居中 */
+            margin-top: -15vh; /* 将搜索框上移15%的视口高度 */
+        }
+        #header {
+            position: absolute;
+            top: -60px; /* 相对于search-container顶部上移60px */
+            left: 50%; /* 相对于search-container水平居中 */
+            transform: translateX(-50%); /* 向左移动自身宽度的50%以实现居中 */
+            font-size: 36px;
+            color: #333;
+        }
+        #search-box {
+            width: 95%; /* 搜索框宽度缩小5% */
+            padding: 20px; /* 保持与大框padding一致 */
+            font-size: 16px;
+            border: none; /* 无边框 */
+            border-bottom: 1px solid #ddd; /* 只显示下边框，浅灰色 */
+            border-radius: 15px; /* 圆角矩形 */
+            outline: none;
+            text-align: left; /* 下拉文字左对齐 */
+        }
+        #results {
+            width: calc(100% - 40px); /* 下拉框宽度与搜索框一致，减去padding宽度 */
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #fff;
+            border-radius: 0 0 15px 15px; /* 圆角矩形 */
+            padding: 10px;
+            margin-top: 5px; /* 上边框和搜索框下边框间隔5px */
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+        }
+        .result-item {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .result-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div id="search-container">
+        <div id="header">ICPMS工程搜索</div>
+        <input type="text" id="search-box" placeholder="搜索内容...">
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.getElementById('search-box').addEventListener('input', function() {
+    // 移除输入中的所有空格
+    const query = this.value.replace(/\s+/g, '').toLowerCase();
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = '';
+    resultsContainer.style.display = 'block';
+
+    if (query.length === 0) {
+        resultsContainer.style.display = 'none';
+        return;
+    }
+
+    const items = [
+        { name: "JJF-1159-2006-四极杆电感耦合等离子体质谱仪校准规范", url: "https://short-phx.yunxuetang.cn/wmsn02h9" },
+        { name: "HJ 700-2014 水质 65种元素的测定 电感耦合等离子体质谱法", url: "https://short-phx.yunxuetang.cn/ygkj5sju" },
+        { name: "JJF-1159-2006-四极杆电感耦合等离子体质谱仪校准规范", url: "https://short-phx.yunxuetang.cn/wmsn02h9" },
+        { name: "HJ 700-2 水质 65种元素的测定 电感耦合等离子体质谱法", url: "https://short-phx.yunxuetang.cn/ygkj5sju" }
+    ];
+
+    const filteredItems = items.filter(item => item.name.toLowerCase().replace(/\s+/g, '').includes(query));
+    filteredItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'result-item';
+        const a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.name;
+        a.target = '_blank'; // 打开新标签页
+        div.appendChild(a);
+        resultsContainer.appendChild(div);
+    });
+});
+
+    </script>
+</body>
+</html>
